@@ -1,7 +1,7 @@
 package com.example.agtgallery.di
 
 import com.example.agtgallery.apiService.FlickrApi
-import com.example.agtgallery.constants.Constants.BASE_URL
+import com.example.agtgallery.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
