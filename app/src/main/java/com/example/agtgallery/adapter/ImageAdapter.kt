@@ -3,6 +3,7 @@ package com.example.agtgallery.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.agtgallery.R
@@ -24,6 +25,10 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
         val currentImage = imageUrlList[position]
         holder.itemView.apply {
             Glide.with(this).load(currentImage.urlS).into(home_image_view)
+
+            home_row_card_view.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment_to_detailsActivity)
+            }
         }
     }
 
