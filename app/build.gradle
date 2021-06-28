@@ -71,6 +71,7 @@ dependencies {
 
     // Gson-Converter-factory
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.google.code.gson:gson:2.8.7'
 
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

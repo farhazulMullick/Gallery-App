@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
 interface FlickrApi {
-    @GET("/rest")
+    @GET("/services/rest")
     suspend fun getPhotos(
         @QueryMap
         query: HashMap<String, String>

@@ -7,7 +7,10 @@ import android.os.Handler
 import android.os.Looper
 import com.example.agtgallery.MainActivity
 import com.example.agtgallery.R
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 
+@AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

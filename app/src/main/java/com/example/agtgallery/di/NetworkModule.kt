@@ -2,6 +2,8 @@ package com.example.agtgallery.di
 
 import com.example.agtgallery.apiService.FlickrApi
 import com.example.agtgallery.util.Constants.BASE_URL
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,8 +29,17 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideConverterFactory(): GsonConverterFactory{
-        return GsonConverterFactory.create()
+    fun provideGsonInstance(): Gson{
+        return GsonBuilder()
+                .setLenient()
+                .serializeNulls()
+                .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideConverterFactory(gson: Gson): GsonConverterFactory{
+        return GsonConverterFactory.create(gson)
     }
 
     @Provides

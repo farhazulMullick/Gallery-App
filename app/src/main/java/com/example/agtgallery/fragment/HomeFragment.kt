@@ -5,17 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.FragmentStateManagerControl
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.agtgallery.R
 import com.example.agtgallery.adapter.ImageAdapter
+import com.example.agtgallery.util.NetworkResult
+import com.example.agtgallery.viewmodels.HomeViewModel
+import com.example.agtgallery.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var myView: View
     private val imageAdapter = ImageAdapter()
+
+    private val mainViewModel by viewModels<MainViewModel>()
+    private val homeViewModel by viewModels<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +35,28 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_home, container, false)
         setUpRecyclerView()
+        requestApi()
         return myView
+    }
+
+    private fun requestApi() {
+        mainViewModel.getPhotos(homeViewModel.applyQuery())
+        mainViewModel.flickrResponse.observe(viewLifecycleOwner, {response->
+            when(response){
+                is NetworkResult.Loading ->{}
+                is NetworkResult.Success ->{
+                    response.data!!.let { imageAdapter.setData(it) }
+                }
+                is NetworkResult.Error ->{
+                    Toast.makeText(
+                            requireContext(),
+                            response.message.toString(),
+                            Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+        })
     }
 
     private fun setUpRecyclerView() {
@@ -32,8 +64,6 @@ class HomeFragment : Fragment() {
             adapter = imageAdapter
             layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         }
-
-        imageAdapter.setData(fakeData())
     }
 
     private fun fakeData(): List<String>{

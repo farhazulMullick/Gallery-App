@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.bumptech.glide.Glide
 import com.example.agtgallery.R
+import com.example.agtgallery.modals.FlickrData
+import com.example.agtgallery.modals.Photo
 import kotlinx.android.synthetic.main.home_row_layout.view.*
 
 class ImageAdapter: RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
-    private var imageUrlList = emptyList<String>()
+    private var imageUrlList = emptyList<Photo>()
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -20,9 +21,9 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentUrl = imageUrlList[position]
+        val currentImage = imageUrlList[position]
         holder.itemView.apply {
-            Glide.with(this).load(currentUrl).into(home_image_view)
+            Glide.with(this).load(currentImage.urlS).into(home_image_view)
         }
     }
 
@@ -30,8 +31,8 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
         return imageUrlList.size
     }
 
-    fun setData(imgUrl: List<String>){
-        imageUrlList = imgUrl
+    fun setData(imgUrl: FlickrData){
+        imageUrlList = imgUrl.photos.photo
         notifyDataSetChanged()
     }
 }
