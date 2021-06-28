@@ -1,18 +1,20 @@
 package com.example.agtgallery.modals
 
 
-import com.example.agtgallery.modals.Photo
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
 data class Photos(
-    @SerializedName("page")
+        @SerializedName("page")
     val page: Int,
-    @SerializedName("pages")
+        @SerializedName("pages")
     val pages: Int,
-    @SerializedName("perpage")
+        @SerializedName("perpage")
     val perpage: Int,
-    @SerializedName("photo")
+        @SerializedName("photo")
     val photo: List<Photo>,
-    @SerializedName("total")
+        @SerializedName("total")
     val total: Int
 )

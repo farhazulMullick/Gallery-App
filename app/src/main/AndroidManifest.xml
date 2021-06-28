@@ -2,17 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.agtgallery">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AGTGallery"
-        android:name=".MyApplication">
+        android:theme="@style/Theme.AGTGallery">
+        <activity
+            android:name=".DetailsActivity"
+            android:theme="@style/DetailsActivityTheme" />
         <activity android:name=".MainActivity" />
         <activity android:name=".splashscreen.SplashScreen">
             <intent-filter>
