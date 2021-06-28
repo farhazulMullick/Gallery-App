@@ -2,4 +2,18 @@
     <string name="app_name">AGT Gallery</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about">About</string>
+    <string name="home">Home</string>
+    <string name="hey_there">Hey there!</string>
+
+    <string name="about_txt">This application is made on top of
+        <br>MVVM architecture</br>
+        <br>Retrofit 2</br>
+        <br>Hilt - Dependency injection</br>
+        <br>flickr image API</br>
+        <br>Glide ImageLoading lib</br>
+    </string>
+
+    <string name="devloper_name">Developed By Farhazul Islam Mullick
+    </string>
 </resources>
