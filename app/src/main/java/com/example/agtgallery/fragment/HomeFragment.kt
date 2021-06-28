@@ -43,9 +43,12 @@ class HomeFragment : Fragment() {
         mainViewModel.getPhotos(homeViewModel.applyQuery())
         mainViewModel.flickrResponse.observe(viewLifecycleOwner, {response->
             when(response){
-                is NetworkResult.Loading ->{}
+                is NetworkResult.Loading ->{
+                    showShimmer()
+                }
                 is NetworkResult.Success ->{
                     response.data!!.let { imageAdapter.setData(it) }
+                    hideShimmer()
                 }
                 is NetworkResult.Error ->{
                     Toast.makeText(
@@ -53,6 +56,7 @@ class HomeFragment : Fragment() {
                             response.message.toString(),
                             Toast.LENGTH_SHORT
                     ).show()
+                    hideShimmer()
                 }
             }
 
@@ -64,6 +68,15 @@ class HomeFragment : Fragment() {
             adapter = imageAdapter
             layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         }
+        showShimmer()
+    }
+
+    private fun showShimmer(){
+        myView.rv_home.showShimmer()
+    }
+
+    private fun hideShimmer(){
+        myView.rv_home.hideShimmer()
     }
 
     private fun fakeData(): List<String>{
