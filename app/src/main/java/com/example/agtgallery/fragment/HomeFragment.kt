@@ -63,6 +63,9 @@ class HomeFragment : Fragment() {
                         "No, Internet Connection" -> {
                             nodata_img_view.setImageResource(R.drawable.ic_no_internet)
                         }
+                        "Sorry, no photos found" ->{
+                            nodata_img_view.setImageResource(R.drawable.ic_no_data)
+                        }
                     }
 
                     nodata_text_view.text = response.message.toString()

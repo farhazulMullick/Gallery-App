@@ -53,7 +53,7 @@ class MainViewModel @Inject constructor(
                         }
 
                         response.body().toString().isNullOrEmpty()->{
-                                NetworkResult.Error("No, data found")
+                                NetworkResult.Error("Sorry, no photos found")
                         }
 
                         response.body()?.photos?.total == 0 ->{
