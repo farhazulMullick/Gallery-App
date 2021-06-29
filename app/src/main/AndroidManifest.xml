@@ -17,7 +17,8 @@
             android:name=".DetailsActivity"
             android:theme="@style/DetailsActivityTheme" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".splashscreen.SplashScreen">
+        <activity android:name=".splashscreen.SplashScreen"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
