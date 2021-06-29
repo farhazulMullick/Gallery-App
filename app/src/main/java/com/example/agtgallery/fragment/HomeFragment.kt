@@ -18,6 +18,7 @@ import com.example.agtgallery.viewmodels.HomeViewModel
 import com.example.agtgallery.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 @AndroidEntryPoint
@@ -36,6 +37,11 @@ class HomeFragment : Fragment() {
         myView = inflater.inflate(R.layout.fragment_home, container, false)
         setUpRecyclerView()
         requestApi()
+
+        myView.retry_btn.setOnClickListener {
+            requestApi()
+        }
+
         return myView
     }
 
@@ -45,23 +51,34 @@ class HomeFragment : Fragment() {
             when(response){
                 is NetworkResult.Loading ->{
                     showShimmer()
+                    hideEmptyStates()
                 }
                 is NetworkResult.Success ->{
                     response.data!!.let { imageAdapter.setData(it) }
                     hideShimmer()
+
                 }
                 is NetworkResult.Error ->{
+                    when(response.message){
+                        "No, Internet Connection" -> {
+                            nodata_img_view.setImageResource(R.drawable.ic_no_internet)
+                        }
+                    }
+
+                    nodata_text_view.text = response.message.toString()
                     Toast.makeText(
                             requireContext(),
                             response.message.toString(),
                             Toast.LENGTH_SHORT
                     ).show()
                     hideShimmer()
+                    showEmptyStates()
                 }
             }
 
         })
     }
+
 
     private fun setUpRecyclerView() {
         myView.rv_home.apply {
@@ -78,6 +95,27 @@ class HomeFragment : Fragment() {
     private fun hideShimmer(){
         myView.rv_home.hideShimmer()
     }
+
+    private fun hideEmptyStates(){
+        myView.apply {
+            retry_btn.visibility = View.INVISIBLE
+            nodata_img_view.visibility = View.INVISIBLE
+            nodata_text_view.visibility = View.INVISIBLE
+            home_title_txt.visibility = View.VISIBLE
+            rv_home.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showEmptyStates(){
+        myView.apply {
+            retry_btn.visibility = View.VISIBLE
+            nodata_img_view.visibility = View.VISIBLE
+            nodata_text_view.visibility = View.VISIBLE
+            home_title_txt.visibility = View.INVISIBLE
+            rv_home.visibility = View.INVISIBLE
+        }
+    }
+
 
     private fun fakeData(): List<String>{
         return listOf(
