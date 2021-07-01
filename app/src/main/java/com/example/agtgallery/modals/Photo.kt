@@ -1,11 +1,6 @@
-package com.example.agtgallery.modals
 
-
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class Photo(
     @SerializedName("farm")
     val farm: Int,
@@ -31,4 +26,4 @@ data class Photo(
     val urlS: String,
     @SerializedName("width_s")
     val widthS: Int
-): Parcelable
+)

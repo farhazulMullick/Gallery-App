@@ -1,5 +1,3 @@
-package com.example.agtgallery.modals
-
 
 import com.google.gson.annotations.SerializedName
 
