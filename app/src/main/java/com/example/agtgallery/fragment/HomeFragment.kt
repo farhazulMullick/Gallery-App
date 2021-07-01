@@ -1,30 +1,28 @@
 package com.example.agtgallery.fragment
 
+import android.accounts.NetworkErrorException
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentStateManagerControl
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.agtgallery.R
-import com.example.agtgallery.adapter.ImageAdapter
-import com.example.agtgallery.util.NetworkResult
+import com.example.agtgallery.adapter.FlickrImageAdapter
 import com.example.agtgallery.viewmodels.HomeViewModel
 import com.example.agtgallery.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.FragmentScoped
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import retrofit2.HttpException
+import java.io.IOException
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var myView: View
-    private val imageAdapter = ImageAdapter()
+    private val flickrAdapter = FlickrImageAdapter()
 
     private val mainViewModel by viewModels<MainViewModel>()
     private val homeViewModel by viewModels<HomeViewModel>()
@@ -47,36 +45,20 @@ class HomeFragment : Fragment() {
 
     private fun requestApi() {
         mainViewModel.getPhotos(homeViewModel.applyQuery())
-        mainViewModel.flickrResponse.observe(viewLifecycleOwner, {response->
-            when(response){
-                is NetworkResult.Loading ->{
-                    showShimmer()
-                    hideEmptyStates()
-                }
-                is NetworkResult.Success ->{
-                    response.data!!.let { imageAdapter.setData(it) }
-                    hideShimmer()
-
-                }
-                is NetworkResult.Error ->{
-                    when(response.message){
-                        "No, Internet Connection" -> {
-                            nodata_img_view.setImageResource(R.drawable.ic_no_internet)
-                        }
-                        "Sorry, no photos found" ->{
-                            nodata_img_view.setImageResource(R.drawable.ic_no_data)
-                        }
-                    }
-
-                    nodata_text_view.text = response.message.toString()
-                    Toast.makeText(
-                            requireContext(),
-                            response.message.toString(),
-                            Toast.LENGTH_SHORT
-                    ).show()
-                    hideShimmer()
-                    showEmptyStates()
-                }
+        mainViewModel.flickResponse.observe(viewLifecycleOwner, { response->
+            try {
+                Toast.makeText(requireContext(), "response recieved", Toast.LENGTH_SHORT).show()
+                flickrAdapter.submitData(viewLifecycleOwner.lifecycle, response)
+                hideShimmer()
+                hideEmptyStates()
+            }catch (e: NetworkErrorException){
+                showEmptyStates()
+                hideShimmer()
+            }catch (e: IOException){
+                hideShimmer()
+            }catch (e: HttpException){
+                showEmptyStates()
+                hideShimmer()
             }
 
         })
@@ -85,10 +67,11 @@ class HomeFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         myView.rv_home.apply {
-            adapter = imageAdapter
+            adapter = flickrAdapter
             layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         }
         showShimmer()
+        hideEmptyStates()
     }
 
     private fun showShimmer(){

@@ -6,14 +6,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.agtgallery.data.Repository
 import com.example.agtgallery.modals.FlickrData
+import com.example.agtgallery.modals.Photo
 import com.example.agtgallery.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -24,7 +24,8 @@ class MainViewModel @Inject constructor(
         private val repository: Repository
 ) : AndroidViewModel(application) {
 
-        val flickrResponse : MutableLiveData<NetworkResult<FlickrData>> = MutableLiveData()
+        private var _flickrResponse: MutableLiveData<PagingData<Photo>> = MutableLiveData()
+        val flickResponse: LiveData<PagingData<Photo>> get() = _flickrResponse
 
         fun getPhotos(query: HashMap<String, String>){
                 viewModelScope.launch{
@@ -32,13 +33,13 @@ class MainViewModel @Inject constructor(
                 }
         }
 
-        private suspend fun getPhotosSafeCall(query: HashMap<String, String>) {
-                flickrResponse.value = NetworkResult.Loading()
+        private fun getPhotosSafeCall(query: HashMap<String, String>) {
                 if (hasInternetConnection()){
                         val response = repository.remote.getPhotos(query)
-                        flickrResponse.value = handleResponse(response)
+                        _flickrResponse = response as MutableLiveData<PagingData<Photo>>
+                        _flickrResponse.cachedIn(viewModelScope)
                 }else{
-                        flickrResponse.value = NetworkResult.Error("No, Internet Connection")
+
                 }
         }
 
