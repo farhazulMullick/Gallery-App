@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
         mainViewModel.flickResponse.observe(viewLifecycleOwner, { response->
             try {
                 Toast.makeText(requireContext(), "response recieved", Toast.LENGTH_SHORT).show()
-                flickrAdapter.submitData(viewLifecycleOwner.lifecycle, response)
+                flickrAdapter.submitData(lifecycle, response)
                 hideShimmer()
                 hideEmptyStates()
             }catch (e: NetworkErrorException){

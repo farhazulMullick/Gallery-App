@@ -2,6 +2,7 @@ package com.example.agtgallery.util
 
 import android.util.Log
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.example.agtgallery.apiService.FlickrApi
 import com.example.agtgallery.modals.Photo
 import com.example.agtgallery.util.Constants.INITIAL_PAGE
@@ -35,6 +36,15 @@ class FlickrPagingSource(
         }catch (e: HttpException){
             LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+
+
     }
 
 

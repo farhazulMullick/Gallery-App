@@ -15,7 +15,7 @@ class RemoteDataSource @Inject constructor(private val flickrApi: FlickrApi) {
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 10,
-                enablePlaceholders = false,
+                enablePlaceholders = false
             ),
             pagingSourceFactory = {FlickrPagingSource(flickrApi, query)}
         ).liveData

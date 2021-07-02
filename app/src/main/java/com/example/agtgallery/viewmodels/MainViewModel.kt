@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -38,6 +39,7 @@ class MainViewModel @Inject constructor(
                         val response = repository.remote.getPhotos(query)
                         _flickrResponse = response as MutableLiveData<PagingData<Photo>>
                         _flickrResponse.cachedIn(viewModelScope)
+                        Log.i("ViewModel", "${flickResponse.value}")
                 }else{
 
                 }
