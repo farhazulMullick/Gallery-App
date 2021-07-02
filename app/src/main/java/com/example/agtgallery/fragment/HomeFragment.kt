@@ -16,6 +16,7 @@ import com.example.agtgallery.adapter.ImageAdapter
 import com.example.agtgallery.util.NetworkResult
 import com.example.agtgallery.viewmodels.HomeViewModel
 import com.example.agtgallery.viewmodels.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -69,17 +70,24 @@ class HomeFragment : Fragment() {
                     }
 
                     nodata_text_view.text = response.message.toString()
-                    Toast.makeText(
-                            requireContext(),
-                            response.message.toString(),
-                            Toast.LENGTH_SHORT
-                    ).show()
                     hideShimmer()
                     showEmptyStates()
+                    showRetrySnackBar(response.message!!)
                 }
             }
 
         })
+    }
+
+    private fun showRetrySnackBar(message: String){
+        Snackbar.make(
+            context_view,
+            message,
+            Snackbar.LENGTH_INDEFINITE)
+            .setAction("Retry") {
+                requestApi()
+            }
+            .show()
     }
 
 
@@ -101,7 +109,7 @@ class HomeFragment : Fragment() {
 
     private fun hideEmptyStates(){
         myView.apply {
-            retry_btn.visibility = View.INVISIBLE
+            retry_btn.visibility = View.GONE
             nodata_img_view.visibility = View.INVISIBLE
             nodata_text_view.visibility = View.INVISIBLE
             home_title_txt.visibility = View.VISIBLE
@@ -111,7 +119,7 @@ class HomeFragment : Fragment() {
 
     private fun showEmptyStates(){
         myView.apply {
-            retry_btn.visibility = View.VISIBLE
+            retry_btn.visibility = View.GONE
             nodata_img_view.visibility = View.VISIBLE
             nodata_text_view.visibility = View.VISIBLE
             home_title_txt.visibility = View.INVISIBLE

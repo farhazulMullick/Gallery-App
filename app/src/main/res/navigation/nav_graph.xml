@@ -30,5 +30,14 @@
             android:name="result"
             app:argType="com.example.agtgallery.modals.Photo" />
     </activity>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.agtgallery.fragment.SeearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_seearch" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailsActivity"
+            app:destination="@id/detailsActivity" />
+    </fragment>
 
 </navigation>

@@ -7,14 +7,16 @@
     <string name="hey_there">Hey there!</string>
 
     <string name="about_txt">This application is made on top of
-        <br>MVVM architecture</br>
-        <br>Retrofit 2</br>
-        <br>Hilt - Dependency injection</br>
-        <br>flickr image API</br>
-        <br>Glide ImageLoading lib</br>
+        \n MVVM architecture
+        \n Retrofit 2
+        \n Hilt - Dependency injection
+        \n flickr image API
+        \n Glide ImageLoading lib
+        \n Search support
     </string>
 
     <string name="devloper_name">Developed By Farhazul Islam Mullick
     </string>
     <string name="retry">Retry</string>
+    <string name="search">Search</string>
 </resources>

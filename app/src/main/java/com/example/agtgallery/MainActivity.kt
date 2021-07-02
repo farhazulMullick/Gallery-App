@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navigationView: NavigationView
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +30,16 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = drawer_layout
         navController = this.findNavController(R.id.nav_host_fragment)
         navigationView = nav_view
+        bottomNavigationView = bottom_navigaion
 
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.homeFragment
-        ), drawerLayout)
+            R.id.homeFragment,
+            R.id.searchFragment
+        ))
 
         navigationView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, drawerLayout)
+        bottomNavigationView.setupWithNavController(navController = navController)
+        setupActionBarWithNavController(navController)
 
     }
 

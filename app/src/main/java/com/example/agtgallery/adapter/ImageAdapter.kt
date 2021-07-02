@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.agtgallery.R
 import com.example.agtgallery.fragment.HomeFragmentDirections
+import com.example.agtgallery.fragment.SeearchFragmentDirections
 import com.example.agtgallery.modals.FlickrData
 import com.example.agtgallery.modals.Photo
 import com.example.agtgallery.modals.Photos
@@ -30,8 +31,8 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
             Glide.with(this).load(currentImage.urlS).into(home_image_view)
 
             home_row_card_view.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsActivity(currentImage)
-                findNavController().navigate(action)
+                val homeAction = HomeFragmentDirections.actionHomeFragmentToDetailsActivity(currentImage)
+                findNavController().navigate(homeAction)
             }
         }
     }
